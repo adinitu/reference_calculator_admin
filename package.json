@@ -1,0 +1,38 @@
+{
+  "name": "reference_calculator_admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-local": "webpack -d --env.NODE_ENV=local && webpack-dev-server --env.NODE_ENV=local --content-base src/ --inline",
+    "start-dev": "webpack -d --env.NODE_ENV=dev && webpack-dev-server --env.NODE_ENV=dev --content-base src/ --inline",
+    "start-prod": "webpack -d --env.production && webpack-dev-server --env.production --content-base src/ --inline",
+    "build": "webpack -d"
+  },
+  "keywords": [],
+  "author": "Adrian Nitu",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.3",
+    "babel-loader": "^7.1.2",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-2": "^6.24.1",
+    "copy-webpack-plugin": "^4.2.3",
+    "eslint": "^4.13.1",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.3",
+    "eslint-plugin-react": "^7.5.1",
+    "html-loader": "^0.5.1",
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.7",
+    "webpack-war-plugin": "^1.0.0-beta.3"
+  },
+  "dependencies": {
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0"
+  }
+}
