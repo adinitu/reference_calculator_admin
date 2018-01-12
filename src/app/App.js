@@ -10,13 +10,15 @@ class App extends React.Component {
   constructor(props){
     super(props);
 
-    this.configurationSelected = this.configurationSelected.bind(this);
+    this.selectConfiguration = this.selectConfiguration.bind(this);
+    this.changeConfiguration = this.changeConfiguration.bind(this);
+    this.saveConfiguration = this.saveConfiguration.bind(this);
     
     this.client = new Client();
-    this.state = {tree:"", selectedContent:""};
+    this.state = {tree:"", selectedContent:"", selectedPath:"", dirty:false};
     this.client.listResources().then(
       result => {
-        let newState = {tree:result, selectedContent:"please select a configuration file"};
+        let newState = {tree:result, selectedContent:"please select a configuration file from the left side"};
         this.setState(newState);
       },
       reject => {
@@ -25,12 +27,46 @@ class App extends React.Component {
     );
   }
 
+  selectConfiguration(path){
+    // todo: check for dirty flag before leaving
+    if (this.state.dirty){
+      if (! confirm("You have unsaved changes that will be lost. Do you want to leave the editor?")){
+        return;
+      }
+    }
+    this.client.getResource(path).then(
+      result => {
+        console.log("Successfully reading configuration:" + path);
+        let newState = {tree:this.state.tree, selectedContent:result, selectedPath: path, dirty:false};
+        this.setState(newState);
+      }      
+    );
+  }
+
+  changeConfiguration(content){
+    let newState = {tree:this.state.tree, selectedContent:content, selectedPath: this.state.selectedPath, dirty:true};
+    this.setState(newState);
+  }
+
+  saveConfiguration(path){
+    this.client.writeResource(this.state.selectedContent, path).then(
+      result => {
+        console.log("Successfully writing configuration:" + path);
+        let newState = {tree:this.state.tree, selectedContent:result, selectedPath: path, dirty:false};
+        this.setState(newState);
+        console.log("Save configuration:" + path);    
+      }            
+    );
+  }
+  
+
   render() {
     let navContent = "loading ...";
     let editorContent = "";
     if (this.state.tree && this.state.tree.ifcVersionList) {
-      navContent = <ConfigurationTree data={this.state.tree} configurationSelected={this.configurationSelected}></ConfigurationTree>;
-      editorContent = <ConfigurationEditor content={this.state.selectedContent}></ConfigurationEditor>;
+      navContent = <ConfigurationTree data={this.state.tree} configurationSelected={this.selectConfiguration}></ConfigurationTree>;
+      editorContent = <ConfigurationEditor content={this.state.selectedContent} path={this.state.selectedPath} 
+      configurationChanged={this.changeConfiguration} configurationSaved={this.saveConfiguration} dirty={this.state.dirty}></ConfigurationEditor>;
     } else if (this.state && this.state.error) {
       navContent = this.state.msg;
     }
@@ -38,26 +74,13 @@ class App extends React.Component {
     return (
       <div style={{ width: "100%" }}>
         <div style={{ float: "left", width: "30%" }}>
-          <h2>Available configurations</h2>
-          <br/>
           {navContent}
         </div>
         <div style={{ float: "right", width: "70%" }}>
-        <h2>Editor</h2>
         <br/>
           {editorContent}
         </div>
       </div>
-    );
-  }
-
-  configurationSelected(path){
-    this.client.getResource(path).then(
-      result => {
-        console.log("Successfully reading configuration:" + path);
-        let newState = {tree:this.state.tree, selectedContent:result};
-        this.setState(newState);
-      }      
     );
   }
 

@@ -14,7 +14,7 @@ module.exports = env => {
   const __service_host_dev = JSON.stringify("https://ltapp110.bmwgroup.net:26240/");
   const __service_resource_list = JSON.stringify("reference_calculator/admin/configuration/list");
   const __service_resource_get = JSON.stringify("reference_calculator/admin/configuration/get");
-  const __service_resource_write = JSON.stringify("reference_calculator/admin/configuration/write");
+  const __service_resource_write = JSON.stringify("reference_calculator/admin/configuration/update");
 
   function getServiceHost(){
     if (! env || env.production){
