@@ -13,7 +13,6 @@ class TreeView extends React.PureComponent {
 
   handleClick(...args) {
     this.setState({ collapsed: !this.state.collapsed });
-    //console.log("item clicked, data: " + this.props.data);
     if (this.props.onClick) {
       this.props.onClick(this.props.data);
     }

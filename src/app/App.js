@@ -36,7 +36,6 @@ class App extends React.Component {
     }
     this.client.getResource(path).then(
       result => {
-        console.log("Successfully reading configuration:" + path);
         let newState = {tree:this.state.tree, selectedContent:result, selectedPath: path, dirty:false};
         this.setState(newState);
       }      
@@ -51,10 +50,8 @@ class App extends React.Component {
   saveConfiguration(path){
     this.client.writeResource(this.state.selectedContent, path).then(
       result => {
-        console.log("Successfully writing configuration:" + path);
         let newState = {tree:this.state.tree, selectedContent:result, selectedPath: path, dirty:false};
         this.setState(newState);
-        console.log("Save configuration:" + path);    
       }            
     );
   }
