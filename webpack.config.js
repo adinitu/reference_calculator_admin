@@ -12,9 +12,6 @@ module.exports = env => {
 
   const __sevice_host_local = JSON.stringify("http://localhost:7304/");
   const __service_host_dev = JSON.stringify("https://ltapp110.bmwgroup.net:26240/");
-  const __service_resource_list = JSON.stringify("reference_calculator/admin/configuration/list");
-  const __service_resource_get = JSON.stringify("reference_calculator/admin/configuration/get");
-  const __service_resource_write = JSON.stringify("reference_calculator/admin/configuration/update");
 
   function getServiceHost(){
     if (! env || env.production){
@@ -58,16 +55,13 @@ module.exports = env => {
         from: SOURCE_DIR +"/react-treeview.css", 
         to: DIST_DIR +"/react-treeview.css" 
       }
-    ]),
-/*    new WebpackWarPlugin({
+    ]),    
+    new WebpackWarPlugin({
       archiveName: 'reference_calculator_admin',
       webInf: './web-inf'
-    }),*/
+    }),
     new DefinePlugin({
-      SERVICE_HOST: getServiceHost(),
-      SERVICE_RESOURCE_LIST: __service_resource_list,
-      SERVICE_RESOURCE_GET: __service_resource_get,
-      SERVICE_RESOURCE_WRITE: __service_resource_write
+      SERVICE_HOST: getServiceHost()
     })        
   ],   
   devServer:{

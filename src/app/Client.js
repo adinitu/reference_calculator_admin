@@ -1,11 +1,16 @@
-/*global  SERVICE_HOST, SERVICE_RESOURCE_LIST, SERVICE_RESOURCE_GET, SERVICE_RESOURCE_WRITE: true*/
+/*global  SERVICE_HOST: true*/
 
+const SERVICE_RESOURCE_LIST = "reference_calculator/admin/configuration/list";
+const SERVICE_RESOURCE_GET = "reference_calculator/admin/configuration/get";
+const SERVICE_RESOURCE_WRITE = "reference_calculator/admin/configuration/update";
+  
 export default class Client {
-
+  
   listResources() {
+    let self = this;
     let result = new Promise((resolve, reject) => {
       let request = new XMLHttpRequest();
-      request.open("GET", this.getServiceHost() + SERVICE_RESOURCE_LIST);
+      request.open("GET", self.getServiceHost() + SERVICE_RESOURCE_LIST);
       request.onreadystatechange = () => {
         if (request.readyState == 4){
           if (request.status == 200){
@@ -67,7 +72,7 @@ export default class Client {
     if (SERVICE_HOST){
       return SERVICE_HOST;
     } else {
-      return window.location.href;
+      return window.location.origin + "/";
     }
   }  
 }
